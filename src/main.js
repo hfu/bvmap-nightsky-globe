@@ -15,7 +15,21 @@ style.sources.bvmap.attribution +=
 // zoomScale "maplibre": numeric zoom follows MapLibre's scale (engine z = MapLibre z + 1); an attempt to close small style differences (e.g. line widths).
 // Start over Japan, where the bvmap tiles and the terrain have data. urlHash keeps the view in the URL hash
 // (Ortho Earth's standard "#zoom/lat/lon/<pitch>t/<bearing>r"); an incoming hash is passed on as the initial `view`.
-const map = await createGlobe({ target: "#map", style, view: location.hash || "#4.5/36/138", urlHash: true, zoomScale: "maplibre" });
+const map = await createGlobe({
+  target: "#map", style, view: location.hash || "#4.5/36/138", urlHash: true, zoomScale: "maplibre",
+  // Switch off everything Ortho Earth draws by default so that only bvmap-nightsky (and the terrain below) is shown:
+  terrain: false,       // no built-in elevation (AW3D30); the DEM is added with setTerrain below
+  night: false,         // no night-side dimming
+  coastline: false,     // no Natural Earth coastline/borders
+  worldLines: false,    // no world rivers / maritime lines
+  worldFill: false,     // no world lakes / below-sea-level fill
+  stars: false, sky: false, // no stars, planets, moon, constellations, clock
+  mesh: false,          // no 3D buildings
+  countryTip: false,    // no hover country names
+  chips: false,         // no top-right chips
+  layers: { place: false, terrain: false, rail: false, road: false, facility: false }, // seal the built-in layer groups
+  instruments: ["attr", "scale"], // keep the attribution box (required) and the scale bar
+});
 
 map.setTerrain({
   source: { tiles: [TERRAIN], encoding: "terrarium", tileSize: 512, maxzoom: 16 },

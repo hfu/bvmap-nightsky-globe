@@ -8,8 +8,7 @@
     <style>
       html, body { margin: 0; height: 100%; background: #000; }
       #map { height: 100vh; }
-      /* Ortho Earth's own layer control (Places/Terrain/Rail/... and themes) is replaced by the bvmap one below. */
-      #layers-btn, #layers-panel { display: none !important; }
+      #sky-clock { display: none; } /* Ortho Earth's sky clock has no off switch (sky:false does not remove it) */
       #bvl { position: fixed; top: 10px; left: 10px; z-index: 5; font: 12px/1.4 system-ui, sans-serif; color: #dde; }
       #bvl button#bvl-btn { width: 36px; height: 36px; border-radius: 8px; border: 1px solid #556; background: rgba(20,26,34,.85); color: #dde; cursor: pointer; font-size: 18px; }
       #bvl-panel { margin-top: 6px; padding: 8px 10px; border-radius: 8px; border: 1px solid #556; background: rgba(20,26,34,.92); min-width: 150px; }
@@ -17,7 +16,7 @@
       #bvl-panel label { display: flex; gap: 6px; align-items: center; padding: 2px 0; cursor: pointer; }
       #bvl-panel h4 { margin: 0 0 4px; font-size: 11px; color: #9ab; font-weight: 600; }
     </style>
-    <script type="module" crossorigin src="./assets/index-DmHh7VRb.js"></script>
+    <script type="module" crossorigin src="./assets/index-DpDAIevc.js"></script>
     <link rel="modulepreload" crossorigin href="./assets/preload-helper-PPVm8Dsz.js">
     <link rel="modulepreload" crossorigin href="./assets/pbf-BAkmwiOE.js">
     <link rel="modulepreload" crossorigin href="./assets/workerFactory-Cq9DVPiV.js">

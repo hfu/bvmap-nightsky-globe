@@ -8,6 +8,7 @@ Live: https://hfu.github.io/bvmap-nightsky-globe/
 
 - `index.html` + `src/main.js`: one call, `createGlobe({ style: "https://stars.optgeo.org/style/bvmap-nightsky" })`, starting over Japan (the bvmap tiles cover Japan; elsewhere you see Ortho Earth's own world layers).
 - **Terrain**: `map.setTerrain(...)` with the Terrarium DEM `https://stars.optgeo.org/mapterhorn-japan-bridge/{z}/{x}/{y}` ([hfu/mapterhorn-japan-bridge](https://github.com/hfu/mapterhorn-japan-bridge): GSI 基盤地図情報 DEM 1m/5m/10m priority-merged, processed with Mapterhorn). The style itself has no hillshade, so relief shows mainly when the camera is tilted.
+- **Only bvmap-nightsky is drawn.** Ortho Earth's defaults are switched off in `createGlobe`: built-in elevation (`terrain: false`; the Mapterhorn DEM is added with `setTerrain`), night-side dimming, Natural Earth coastline, world rivers/lakes, stars/planets/moon/constellations (`sky`, `stars`), 3D buildings (`mesh`), country-name hover, the top-right chips and the built-in layer groups; only the attribution box and scale bar are kept (`instruments`). The sky clock cannot be switched off by an option, so it is hidden with one line of CSS.
 - **Layer control** (top left): Ortho Earth's standard control (Places/Terrain/Rail/... and themes) is hidden and replaced by a bvmap one that switches the style's layers by GSI source-layer group (Roads, Railways, Buildings, Water, Boundaries, Contours, Power lines, Labels).
 - **Equal Earth**: the "Equal Earth map" button in the layer control calls Ortho Earth's standard `map.gadget.equalStart()`, which opens Ortho Earth's own Equal Earth page (`https://www.ortho-earth.com/equal/`, in an iframe) at the current view. That page draws Ortho Earth's world data, not bvmap-nightsky.
 - **Attribution** uses Ortho Earth's standard box (bottom right, "Data sources"): the style is fetched at start and the dwg7 / terrain credits are appended to the `bvmap` source's `attribution`.
@@ -25,7 +26,7 @@ Live: https://hfu.github.io/bvmap-nightsky-globe/
 
 ## Known differences
 
-Ortho Earth's rendering of the MapLibre style is not pixel-identical to MapLibre GL JS; line widths in particular can differ slightly. `createGlobe` is called with `zoomScale: "maplibre"` (numeric zoom on MapLibre's scale) as a best-effort measure; whether it narrows the gap has **not** been verified against a MapLibre reference image. On WebGPU the base map's paint is baked per tile zoom (not continuous with zoom), while WebGL2 (`?gl2=1`) evaluates it every frame, so the two paths can differ too (per Ortho Earth's `maplibre-compat.md`).
+Ortho Earth's rendering of the MapLibre style is not pixel-identical to MapLibre GL JS; line widths in particular can differ slightly. `createGlobe` is called with `zoomScale: "maplibre"` (numeric zoom on MapLibre's scale) as a best-effort measure (Ortho Earth's documentation says a style's own zoom values are already read on MapLibre's scale, so this may change nothing for the style itself); whether it narrows the gap has **not** been verified against a MapLibre reference image. On WebGPU the base map's paint is baked per tile zoom (not continuous with zoom), while WebGL2 (`?gl2=1`) evaluates it every frame, so the two paths can differ too (per Ortho Earth's `maplibre-compat.md`).
 
 ## Browsers
 
