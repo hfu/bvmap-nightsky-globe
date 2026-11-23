@@ -36,6 +36,9 @@ map.setTerrain({
   exaggeration: Number(q.get("exag")) || 1, // ?exag=2 exaggerates the relief (default 1 = true scale)
 });
 
+// Compass (north-up) button: Ortho Earth's standard gadget; it shows while the view is tilted or rotated.
+map.gadget.compass();
+
 // bvmap layer control: the style's layers, grouped by GSI source-layer, switched with layout.visibility.
 const GROUPS = [
   ["Roads", ["RdCL", "RdEdg", "RdCompt"]],
