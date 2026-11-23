@@ -8,20 +8,18 @@
     <style>
       html, body { margin: 0; height: 100%; background: #000; }
       #map { height: 100vh; }
-      #credit { position: fixed; left: 0; right: 0; bottom: 0; padding: 4px 8px; font: 11px/1.4 system-ui, sans-serif;
-        color: #ccd; background: rgba(0,0,0,.55); }
-      #credit a { color: #9cf; }
+      /* Ortho Earth's own layer control (Places/Terrain/Rail/... and themes) is replaced by the bvmap one below. */
+      #layers-btn, #layers-panel { display: none !important; }
+      #bvl { position: fixed; top: 10px; left: 10px; z-index: 5; font: 12px/1.4 system-ui, sans-serif; color: #dde; }
+      #bvl button#bvl-btn { width: 36px; height: 36px; border-radius: 8px; border: 1px solid #556; background: rgba(20,26,34,.85); color: #dde; cursor: pointer; font-size: 18px; }
+      #bvl-panel { margin-top: 6px; padding: 8px 10px; border-radius: 8px; border: 1px solid #556; background: rgba(20,26,34,.92); min-width: 150px; }
+      #bvl-panel[hidden] { display: none; }
+      #bvl-panel label { display: flex; gap: 6px; align-items: center; padding: 2px 0; cursor: pointer; }
+      #bvl-panel h4 { margin: 0 0 4px; font-size: 11px; color: #9ab; font-weight: 600; }
     </style>
   </head>
   <body>
     <div id="map"></div>
-    <div id="credit">
-      Basemap: bvmap-nightsky, derived from the <a href="https://github.com/gsi-cyberjapan/optimal_bvmap">GSI optimized vector tiles (optimal_bvmap)</a>
-      (&copy; 国土地理院 / Geospatial Information Authority of Japan, <a href="https://www.gsi.go.jp/kikakuchousei/kikakuchousei40182.html">terms of use</a>);
-      a <a href="https://dwg7.unopengis.org/">dwg7</a> activity, not an official GSI product. Sprite icons modified (grayscale, inverted) by dwg7/bvmap. Terrain: 国土地理院 (GSI) DEM, processed with Mapterhorn (japan-bridge).
-      Globe: <a href="https://github.com/kenjiyoshidahome2026-bit/ortho-earth">Ortho Earth</a> by Kenji Yoshida (GPL-3.0).
-      <a href="https://github.com/hfu/bvmap-nightsky-globe">Source</a>
-    </div>
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>
