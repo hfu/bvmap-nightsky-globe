@@ -1,0 +1,1 @@
+function d(t){let e=t.querySelector("#gadgets");return e||(e=document.createElement("div"),e.id="gadgets",t.append(e)),e}function c(t){let e=t.querySelector("#dock");return e||(e=document.createElement("div"),e.id="dock",t.append(e)),e}export{c as d,d as g};

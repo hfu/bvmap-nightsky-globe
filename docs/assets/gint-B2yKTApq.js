@@ -1,0 +1,1 @@
+import{unPackGintBuffer as a}from"./topology-BIJJIMS6.js";import"./gint-CASpJLTo.js";import"./pbf-base-CiJ2UBNh.js";import"./pbf-BAkmwiOE.js";import"./utility-COSYcFzm.js";onmessage=({data:{sab:t}})=>{const r=a(t);if(!r){postMessage({unpackFailed:!0});return}const e=(r.arcBuffer??r.pointBuffer??r.arcMeta??r.polyStream)?.buffer;postMessage(r,e instanceof ArrayBuffer?[e]:[])};

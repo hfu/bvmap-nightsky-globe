@@ -1,0 +1,1 @@
+import{unPackGintBuffer as a}from"./topology-DEfqevan.js";import"./gint-DywW9r34.js";import"./pbf-base-DB6HGkDn.js";onmessage=({data:{sab:t}})=>{const e=a(t);if(!e){postMessage({unpackFailed:!0});return}const r=(e.arcBuffer??e.pointBuffer??e.arcMeta??e.polyStream)?.buffer;postMessage(e,r instanceof ArrayBuffer?[r]:[])};

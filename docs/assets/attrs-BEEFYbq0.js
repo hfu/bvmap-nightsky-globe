@@ -1,0 +1,1 @@
+function r(e={}){if(e.excludeAll)return()=>!1;const u=e.include?new Set(e.include):null,c=e.exclude?new Set(e.exclude):null;if(!u&&!c)return null;const i=(l,n)=>l.has(n)||n.includes(".")&&l.has(n.slice(0,n.indexOf(".")));return l=>(!u||i(u,l))&&!(c&&i(c,l))}export{r as a};

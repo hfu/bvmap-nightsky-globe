@@ -1,0 +1,1 @@
+function h(r){const n=o=>[r[o],r[4+o],r[8+o],r[12+o]],a=n(0),f=n(1),u=n(2),s=n(3),e=[];for(const[o,p]of[[a,1],[a,-1],[f,1],[f,-1],[u,1],[u,-1]]){const t=[s[0]+p*o[0],s[1]+p*o[1],s[2]+p*o[2],s[3]+p*o[3]],c=Math.hypot(t[0],t[1],t[2])||1;e.push([t[0]/c,t[1]/c,t[2]/c,t[3]/c])}return e}export{h as p};

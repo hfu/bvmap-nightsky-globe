@@ -1,0 +1,1 @@
+function i(r,t){let n=0,a=1,e;do{if(t.pos>=r.length)throw new Error("varint: truncated");e=r[t.pos++],n+=(e&127)*a,a*=128}while(e>=128);return n}const o=r=>r%2?-(r+1)/2:r/2;function c(r,t){return o(i(r,t))}function d(r,t,n){for(;n>=128;)r[t++]=n%128|128,n=Math.floor(n/128);return r[t++]=n,t}const s=r=>r>=0?r*2:-r*2-1;export{c as a,i as r,d as w,s as z};

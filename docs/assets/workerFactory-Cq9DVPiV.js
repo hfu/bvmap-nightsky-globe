@@ -1,0 +1,1 @@
+let t=null;function e(o){t=typeof o=="function"?o:null}const s=()=>!!t;function a(o,n){if(t)try{const r=t(o);if(r)return r}catch(r){console.warn(`[geopbf] host worker factory failed for "${o}" = using the built-in worker`,r)}return n?n():null}export{e as a,s as h,a as s};

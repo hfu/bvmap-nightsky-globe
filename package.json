@@ -1,0 +1,10 @@
+{
+  "name": "bvmap-nightsky-globe",
+  "private": true,
+  "version": "0.1.0",
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "scripts": { "dev": "vite", "build": "vite build" },
+  "dependencies": { "@ortho-earth/globe": "2.4.2" },
+  "devDependencies": { "vite": "^7.0.0" }
+}

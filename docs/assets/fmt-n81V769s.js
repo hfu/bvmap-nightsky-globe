@@ -1,0 +1,1 @@
+function o(n){return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,",")}function e(n){const t=n/1e3,r=(c,m)=>o(c.toFixed(m));return t<.1?r(n,1)+" m":t<1?r(Math.round(n),0)+" m":t<10?r(t,2)+" km":t<100?r(t,1)+" km":r(t,0)+" km"}export{o as c,e as f};

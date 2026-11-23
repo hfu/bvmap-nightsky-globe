@@ -1,0 +1,1 @@
+onmessage=async s=>{const{buf:a,name:o}=s.data;try{let e=new Blob([a]);e=await new Response(e.stream().pipeThrough(new CompressionStream("gzip"))).blob(),postMessage(new File([e],`${o}.geopbf`,{type:"application/x-geopbf"}))}catch{postMessage(null)}};
