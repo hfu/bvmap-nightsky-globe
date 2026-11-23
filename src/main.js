@@ -12,20 +12,14 @@ style.sources.bvmap.attribution +=
   '・bvmap-nightsky: a <a href="https://dwg7.unopengis.org/" target="_blank" rel="noopener">dwg7</a> activity, not an official GSI product' +
   '・Terrain: 国土地理院 (GSI) DEM, processed with <a href="https://github.com/hfu/mapterhorn-japan-bridge" target="_blank" rel="noopener">Mapterhorn (japan-bridge)</a>';
 
-// "#zoom/lat/lon" — start over Japan, where the bvmap tiles and the terrain have data.
-const map = await createGlobe({ target: "#map", style, view: "#4.5/36/138" });
+// Start over Japan, where the bvmap tiles and the terrain have data. urlHash keeps the view in the URL hash
+// (Ortho Earth's standard "#zoom/lat/lon/<pitch>t/<bearing>r"); an incoming hash is passed on as the initial `view`.
+const map = await createGlobe({ target: "#map", style, view: location.hash || "#4.5/36/138", urlHash: true });
 
 map.setTerrain({
   source: { tiles: [TERRAIN], encoding: "terrarium", tileSize: 512, maxzoom: 16 },
   exaggeration: Number(q.get("exag")) || 1, // ?exag=2 exaggerates the relief (default 1 = true scale)
 });
-
-// ?v=zoom/lat/lon[/pitch[/bearing]] opens at a given view, e.g. ?v=10.5/35.36/138.73/65/20 (Mt. Fuji).
-const v = q.get("v");
-if (v) {
-  const [zoom, lat, lon, pitch = 0, bearing = 0] = v.split("/").map(Number);
-  map.jumpTo({ center: [lon, lat], zoom, pitch, bearing });
-}
 
 // bvmap layer control: the style's layers, grouped by GSI source-layer, switched with layout.visibility.
 const GROUPS = [
