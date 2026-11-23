@@ -39,6 +39,20 @@ map.setTerrain({
 // Compass (north-up) button: Ortho Earth's standard gadget; it shows while the view is tilted or rotated.
 map.gadget.compass();
 
+// Relief (hillshade + hypsometric tint) from the same DEM. Ortho Earth draws these layers above the base map and below the labels,
+// so the style's opaque fills (background, administrative area) do not paint over them.
+map.addSource("dem", { type: "raster-dem", tiles: [TERRAIN], encoding: "terrarium", tileSize: 512, maxzoom: 16 });
+map.addLayer({ id: "relief-tint", type: "color-relief", source: "dem", paint: {
+  "color-relief-opacity": 0.55,
+  "color-relief-color": ["interpolate", ["linear"], ["elevation"],
+    0, "#1e2a2e", 300, "#2f3d36", 1000, "#4a5646", 2000, "#6f7566", 3000, "#9a9c90", 3800, "#d0d0c8"],
+} }).then(() => map.addLayer({ id: "relief-shade", type: "hillshade", source: "dem", paint: {
+  "hillshade-exaggeration": 0.6,
+  "hillshade-shadow-color": "#000000",
+  "hillshade-highlight-color": "#ffffff",
+  "hillshade-accent-color": "#000000",
+} })).catch((e) => console.warn("relief layers:", e));
+
 // bvmap layer control: the style's layers, grouped by GSI source-layer, switched with layout.visibility.
 const GROUPS = [
   ["Roads", ["RdCL", "RdEdg", "RdCompt"]],
@@ -70,6 +84,13 @@ panel.querySelector("#bvl-btn").addEventListener("click", (e) => {
   box.hidden = !box.hidden;
   e.currentTarget.setAttribute("aria-expanded", String(!box.hidden));
 });
+const relief = document.createElement("label");
+relief.innerHTML = '<input type="checkbox" checked> Relief (shade + tint)';
+relief.firstElementChild.addEventListener("change", (e) => {
+  for (const id of ["relief-tint", "relief-shade"]) map.setLayoutProperty(id, "visibility", e.target.checked ? "visible" : "none");
+});
+box.append(relief);
+
 // Equal Earth (the flat, equal-area world map): Ortho Earth's standard entry, opened from Ortho Earth's own site.
 const eq = document.createElement("button");
 eq.type = "button";
