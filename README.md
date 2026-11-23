@@ -23,6 +23,10 @@ Live: https://hfu.github.io/bvmap-nightsky-globe/
 - Style and tiles are served from `stars.optgeo.org` ([hfu/stars](https://github.com/hfu/stars)).
 - **Globe engine**: [Ortho Earth](https://github.com/kenjiyoshidahome2026-bit/ortho-earth) (`@ortho-earth/globe` 2.4.2) by Kenji Yoshida, GPL-3.0-or-later. A commercial license is offered by its author.
 
+## Known differences
+
+Ortho Earth's rendering of the MapLibre style is not pixel-identical to MapLibre GL JS; line widths in particular can differ slightly. `createGlobe` is called with `zoomScale: "maplibre"` (numeric zoom on MapLibre's scale) as a best-effort measure; whether it narrows the gap has **not** been verified against a MapLibre reference image. On WebGPU the base map's paint is baked per tile zoom (not continuous with zoom), while WebGL2 (`?gl2=1`) evaluates it every frame, so the two paths can differ too (per Ortho Earth's `maplibre-compat.md`).
+
 ## Browsers
 
 Ortho Earth uses WebGPU and falls back to WebGL2. In some virtualized or GPU-less environments the globe can stay black; that was seen in an embedded browser pane, while Brave on macOS rendered it correctly.

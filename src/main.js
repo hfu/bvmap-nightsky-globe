@@ -12,9 +12,10 @@ style.sources.bvmap.attribution +=
   '・bvmap-nightsky: a <a href="https://dwg7.unopengis.org/" target="_blank" rel="noopener">dwg7</a> activity, not an official GSI product' +
   '・Terrain: 国土地理院 (GSI) DEM, processed with <a href="https://github.com/hfu/mapterhorn-japan-bridge" target="_blank" rel="noopener">Mapterhorn (japan-bridge)</a>';
 
+// zoomScale "maplibre": numeric zoom follows MapLibre's scale (engine z = MapLibre z + 1); an attempt to close small style differences (e.g. line widths).
 // Start over Japan, where the bvmap tiles and the terrain have data. urlHash keeps the view in the URL hash
 // (Ortho Earth's standard "#zoom/lat/lon/<pitch>t/<bearing>r"); an incoming hash is passed on as the initial `view`.
-const map = await createGlobe({ target: "#map", style, view: location.hash || "#4.5/36/138", urlHash: true });
+const map = await createGlobe({ target: "#map", style, view: location.hash || "#4.5/36/138", urlHash: true, zoomScale: "maplibre" });
 
 map.setTerrain({
   source: { tiles: [TERRAIN], encoding: "terrarium", tileSize: 512, maxzoom: 16 },
