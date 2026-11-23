@@ -52,5 +52,12 @@ panel.querySelector("#bvl-btn").addEventListener("click", (e) => {
   box.hidden = !box.hidden;
   e.currentTarget.setAttribute("aria-expanded", String(!box.hidden));
 });
+// Equal Earth (the flat, equal-area world map): Ortho Earth's standard entry, opened from Ortho Earth's own site.
+const eq = document.createElement("button");
+eq.type = "button";
+eq.textContent = "Equal Earth map";
+eq.style.cssText = "margin-top:6px;width:100%;cursor:pointer";
+eq.addEventListener("click", () => map.gadget.equalStart({ url: "https://www.ortho-earth.com/equal/" }));
+box.append(eq);
 document.body.append(panel);
 window.map = map;
