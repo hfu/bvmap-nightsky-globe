@@ -22,6 +22,7 @@ if (landFill) landFill.maxzoom = 9;
 // (Ortho Earth's standard "#zoom/lat/lon/<pitch>t/<bearing>r"); an incoming hash is passed on as the initial `view`.
 const map = await createGlobe({
   target: "#map", style, view: location.hash || "#4.5/36/138", urlHash: true, zoomScale: "maplibre",
+  handlers: { dragRotate: false }, // Ortho Earth's tilt drag runs the opposite way to MapLibre; replaced by the handler below
   // Switch off everything Ortho Earth draws by default so that only bvmap-nightsky (and the terrain below) is shown:
   terrain: false,       // no built-in elevation (AW3D30); the DEM is added with setTerrain below
   night: false,         // no night-side dimming
@@ -57,6 +58,34 @@ map.addLayer({ id: "relief-tint", type: "color-relief", source: "dem", paint: {
   "hillshade-highlight-color": "#ffffff",
   "hillshade-accent-color": "#000000",
 } })).catch((e) => console.warn("relief layers:", e));
+
+// Tilt/rotate drag with MapLibre's direction and speed (right button, or Ctrl + left button). Ortho Earth's own handler moves the
+// pitch the other way (drag down = tilt more), so it is switched off above. Temporary: remove when Ortho Earth follows MapLibre.
+// MapLibre: bearing += dx * 0.8 deg, pitch += dy * -0.5 deg. No inertia.
+{
+  const el = document.getElementById("map");
+  let g = null;
+  const deg = (rad) => (rad * 180) / Math.PI;
+  el.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "touch" || !(e.button === 2 || e.ctrlKey)) return;
+    g = { id: e.pointerId, x: e.clientX, y: e.clientY };
+    el.setPointerCapture?.(e.pointerId);
+  }, true);
+  el.addEventListener("pointermove", (e) => {
+    if (!g || e.pointerId !== g.id) return;
+    const dx = e.clientX - g.x, dy = e.clientY - g.y;
+    g.x = e.clientX; g.y = e.clientY;
+    const maxPitch = map.view.maxPitch ? deg(map.view.maxPitch) : 75;
+    map.jumpTo({
+      bearing: deg(map.view.bearing) + dx * 0.8,
+      pitch: Math.min(maxPitch, Math.max(0, deg(map.view.pitch) - dy * 0.5)),
+    });
+  }, true);
+  const end = (e) => { if (g && e.pointerId === g.id) g = null; };
+  el.addEventListener("pointerup", end, true);
+  el.addEventListener("pointercancel", end, true);
+  el.addEventListener("contextmenu", (e) => e.preventDefault()); // Ctrl+click is a context menu on macOS
+}
 
 // bvmap layer control: the style's layers, grouped by GSI source-layer, switched with layout.visibility.
 const GROUPS = [
