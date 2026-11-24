@@ -13,6 +13,11 @@ style.sources.bvmap.attribution +=
   '・Terrain: 国土地理院 (GSI) DEM, processed with <a href="https://github.com/hfu/mapterhorn-japan-bridge" target="_blank" rel="noopener">Mapterhorn (japan-bridge)</a>';
 
 // zoomScale "maplibre": numeric zoom follows MapLibre's scale (engine z = MapLibre z + 1); an attempt to close small style differences (e.g. line widths).
+// The style's opaque land fill (bvmap-行政区画) has the same colour as the background from z8 up, but over terrain it hides
+// contour lines on some slopes. Keep it only below z9 (where the background is the sea colour) and let the background show above.
+const landFill = style.layers.find((l) => l.id === "bvmap-行政区画");
+if (landFill) landFill.maxzoom = 9;
+
 // Start over Japan, where the bvmap tiles and the terrain have data. urlHash keeps the view in the URL hash
 // (Ortho Earth's standard "#zoom/lat/lon/<pitch>t/<bearing>r"); an incoming hash is passed on as the initial `view`.
 const map = await createGlobe({
@@ -43,11 +48,11 @@ map.gadget.compass();
 // so the style's opaque fills (background, administrative area) do not paint over them.
 map.addSource("dem", { type: "raster-dem", tiles: [TERRAIN], encoding: "terrarium", tileSize: 512, maxzoom: 16 });
 map.addLayer({ id: "relief-tint", type: "color-relief", source: "dem", paint: {
-  "color-relief-opacity": 0.55,
+  "color-relief-opacity": 0.4,
   "color-relief-color": ["interpolate", ["linear"], ["elevation"],
     0, "#1e2a2e", 300, "#2f3d36", 1000, "#4a5646", 2000, "#6f7566", 3000, "#9a9c90", 3800, "#d0d0c8"],
 } }).then(() => map.addLayer({ id: "relief-shade", type: "hillshade", source: "dem", paint: {
-  "hillshade-exaggeration": 0.6,
+  "hillshade-exaggeration": 0.35,
   "hillshade-shadow-color": "#000000",
   "hillshade-highlight-color": "#ffffff",
   "hillshade-accent-color": "#000000",
